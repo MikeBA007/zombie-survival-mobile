@@ -32,9 +32,9 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Survivor Status</Text>
 
         <StatBar label="Health" value={player.health} />
-        <StatBar label="Hunger" value={player.hunger} />
-        <StatBar label="Thirst" value={player.thirst} />
-        <StatBar label="Fatigue" value={player.fatigue} />
+        <StatBar label="Hunger" value={player.hunger} dangerHigh />
+        <StatBar label="Thirst" value={player.thirst} dangerHigh />
+        <StatBar label="Fatigue" value={player.fatigue} dangerHigh />
       </View>
 
       <View style={styles.card}>

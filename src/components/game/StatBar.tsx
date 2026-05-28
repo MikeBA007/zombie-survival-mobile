@@ -3,10 +3,24 @@ import { StyleSheet, Text, View } from "react-native";
 type StatBarProps = {
   label: string;
   value: number;
+  dangerHigh?: boolean;
 };
 
-export function StatBar({ label, value }: StatBarProps) {
+function getBarColor(value: number, dangerHigh: boolean) {
+  if (dangerHigh) {
+    if (value >= 75) return "#ef4444";
+    if (value >= 40) return "#facc15";
+    return "#22c55e";
+  }
+
+  if (value >= 75) return "#22c55e";
+  if (value >= 40) return "#facc15";
+  return "#ef4444";
+}
+
+export function StatBar({ label, value, dangerHigh = false }: StatBarProps) {
   const safeValue = Math.max(0, Math.min(100, value));
+  const barColor = getBarColor(safeValue, dangerHigh);
 
   return (
     <View style={styles.container}>
@@ -16,7 +30,15 @@ export function StatBar({ label, value }: StatBarProps) {
       </View>
 
       <View style={styles.track}>
-        <View style={[styles.fill, { width: `${safeValue}%` }]} />
+        <View
+          style={[
+            styles.fill,
+            {
+              width: `${safeValue}%`,
+              backgroundColor: barColor,
+            },
+          ]}
+        />
       </View>
     </View>
   );
@@ -32,10 +54,12 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   label: {
+    color: "#e5e7eb",
     fontSize: 16,
     fontWeight: "600",
   },
   value: {
+    color: "#94a3b8",
     fontSize: 14,
   },
   track: {
@@ -47,6 +71,5 @@ const styles = StyleSheet.create({
   fill: {
     height: "100%",
     borderRadius: 999,
-    backgroundColor: "#4ade80",
   },
 });
